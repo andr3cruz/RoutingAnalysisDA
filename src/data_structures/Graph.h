@@ -10,6 +10,8 @@
 #include <climits>
 #include <execution>
 #include <unordered_map>
+#include <chrono>
+#include <unordered_set>
 #include "VertexEdge.h"
 #include "../model/Node.h"
 #include "../model/Connection.h"
@@ -61,6 +63,12 @@ public:
     * @returns the maximum flow from vertex s to t
     */
     double edmondsKarp(Vertex* s, Vertex* t);
+
+    /**
+     * @brief Does the initial call to the Backtracking algorithm for solving the Traveling Salesman Problem and
+     *        prints the optimal path and cost
+     */
+    void tspBacktrack();
 
     protected:
 
@@ -144,6 +152,23 @@ public:
      * @param f
      */
     static void augmentFlowAlongPath(Vertex *s, Vertex *t, double f);
+
+    /**
+     * @brief Backtracking algorithm for solving the Traveling Salesman Problem.
+     * @details Time Complexity: O((V-1)!) where V is the number of vertices
+     * @param currentVertex
+     * @param currentCost
+     * @param currentPath
+     * @param visitedVertices
+     * @param optimalCost
+     * @param optimalPath
+     * @param visitedCount
+     * @param desiredPathSize
+     * @param startVertex
+     */
+    void backtrack(Vertex* currentVertex, double currentCost, std::vector<Vertex*>& currentPath,
+                   std::vector<bool>& visitedVertices, double& optimalCost, std::vector<Vertex*>& optimalPath,
+                   int visitedCount, int desiredPathSize, Vertex* startVertex);
 };
 
 #endif /* DA_TP_CLASSES_GRAPH */

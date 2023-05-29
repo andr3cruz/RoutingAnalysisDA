@@ -1,8 +1,8 @@
 #include "ParserData.h"
 
 ParserData::ParserData(){
-    edges = parser.parseConnections("../data/edges.csv"); //TODO: change path
-    nodes = parser.parseNodes("../data/nodes.csv"); // TODO: change path
+    edges = parser.parseConnections("../data/tourism.csv"); //TODO: change path
+    nodes = parser.parseNodes("../data/nodess.csv"); // TODO: change path
     graph = GraphBuilder::buildGraph(nodes, edges);
 }
 

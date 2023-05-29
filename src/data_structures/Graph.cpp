@@ -201,4 +201,69 @@ const unordered_map<int, Vertex *> & Graph::getVertexMap() const {
     return this->vertexMap;
 }
 
+void Graph::backtrack(Vertex* currentVertex, double currentCost, std::vector<Vertex*>& currentPath,
+                         std::vector<bool>& visitedVertices, double& optimalCost, std::vector<Vertex*>& optimalPath,
+                         int visitedCount, int desiredPathSize, Vertex* startVertex) {
+    currentPath.push_back(currentVertex);
+    visitedVertices[currentVertex->getId()] = true;
+    visitedCount++;
+
+    // Base case: All desired vertices have been visited, and the current vertex is adjacent to the start vertex
+    if (visitedCount == desiredPathSize && currentVertex->isAdjacentTo(startVertex)) {
+        double newCost = currentCost + currentVertex->getEdgeTo(startVertex)->getWeight();
+        // Check if the current path is better than the current optimal path
+        if (newCost < optimalCost) {
+            optimalCost = newCost;
+            optimalPath = currentPath;
+            optimalPath.push_back(startVertex);
+        }
+    } else {
+        // Explore unvisited neighbors
+        for (Edge* edge : currentVertex->getAdj()) {
+            if (edge->getOrig() == currentVertex && !visitedVertices[edge->getDest()->getId()]) {
+                Vertex* neighbor = edge->getDest();
+                double newCost = currentCost + edge->getWeight();
+
+                backtrack(neighbor, newCost, currentPath, visitedVertices, optimalCost, optimalPath,
+                             visitedCount, desiredPathSize, startVertex);
+            }
+        }
+    }
+
+    // Backtrack: Remove the current vertex from the path and mark it as not visited
+    currentPath.pop_back();
+    visitedVertices[currentVertex->getId()] = false;
+    visitedCount--;
+}
+
+void Graph::tspBacktrack() {
+    double optimalCost = std::numeric_limits<double>::max();
+    std::vector<Vertex*> optimalPath;
+    int visitedCount = 0;  // Counter to keep track of the visited vertices
+
+    Vertex* startVertex = vertexMap.find(0)->second;
+
+    std::vector<Vertex*> currentPath;
+    std::vector<bool> visitedVertices(vertexMap.size(), false);
+
+    // Calculate the desired path size based on the edges
+    int desiredPathSize = 0;
+    for (const auto& entry : vertexMap) {
+        Vertex* vertex = entry.second;
+        if (!vertex->getAdj().empty()) {
+            desiredPathSize++;
+        }
+    }
+
+    backtrack(startVertex, 0, currentPath, visitedVertices, optimalCost, optimalPath, visitedCount,
+                 desiredPathSize, startVertex);
+
+    std::cout << "Optimal Path: ";
+    for (int i = optimalPath.size() - 1; i >= 0; i--) {
+        std::cout << optimalPath[i]->getId() << " ";
+    }
+    std::cout << endl;
+    std::cout << "Optimal Cost: " << optimalCost << std::endl;
+}
+
 #pragma clang diagnostic pop

@@ -2,8 +2,6 @@
 #pragma ide diagnostic ignored "misc-no-recursion"
 #include "UserInterface.h"
 
-
-
 void UserInterface::mainMenu() {
     int choice;
 
@@ -17,6 +15,7 @@ void UserInterface::mainMenu() {
 
     switch (choice) {
         case 1:
+            parserData.getGraph()->tspBacktrack();
             break;
         case 2:
             break;

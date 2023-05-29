@@ -25,7 +25,7 @@ vector<Connection> NetworkParser::parseConnections(const string &file) {
             try {
                 sourceNode = stoi(values[0]);
                 destNode = stoi(values[1]);
-                distanceValue = stoi(values[2]);
+                distanceValue = stod(values[2]);
             }
             catch (invalid_argument const &ex) {
                 cerr << "Invalid argument: " << ex.what() << endl;
@@ -71,8 +71,8 @@ set<Node> NetworkParser::parseNodes(const string& file) {
             double latitudeValue = 0;
             try {
                 idValue = stoi(values[0]);
-                longitudeValue = stoi(values[1]);
-                latitudeValue = stoi(values[2]);
+                longitudeValue = stod(values[1]);
+                latitudeValue = stod(values[2]);
             }
             catch (invalid_argument const &ex) {
                 cerr << "Invalid argument: " << ex.what() << endl;

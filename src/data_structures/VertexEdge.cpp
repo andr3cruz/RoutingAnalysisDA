@@ -12,7 +12,6 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
     return newEdge;
 }
 
-
 bool Vertex::operator<(Vertex & vertex) const {
     return this->dist < vertex.dist;
 }
@@ -44,6 +43,24 @@ void Vertex::setVisited(bool visited) {
 
 void Vertex::setPath(Edge *path) {
     this->path = path;
+}
+
+bool Vertex::isAdjacentTo(Vertex* otherVertex) const {
+    for (Edge* edge : adj) {
+        if (edge->getOrig() == this && edge->getDest() == otherVertex) {
+            return true;
+        }
+    }
+    return false;
+}
+
+Edge* Vertex::getEdgeTo(Vertex* otherVertex) const {
+    for (Edge* edge : adj) {
+        if (edge->getOrig() == this && edge->getDest() == otherVertex) {
+            return edge;
+        }
+    }
+    return nullptr;  // If no edge is found between the vertices
 }
 
 /********************** Edge  ****************************/

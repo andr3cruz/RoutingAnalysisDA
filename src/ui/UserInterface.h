@@ -14,7 +14,6 @@ class UserInterface {
 public:
     /// Main menu
     static void mainMenu();
-
 };
 
 #endif //USERINTERFACE_H

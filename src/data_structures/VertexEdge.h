@@ -89,8 +89,22 @@ public:
     Edge * addEdge(Vertex *dest, double w);
 
     /**
-     * @brief Operator == Overload
+     * @brief Gets if there is an edge between two vertices.
+     * @param otherVertex
+     * @return true or false
      */
+    bool isAdjacentTo(Vertex* otherVertex) const;
+
+    /**
+     * @brief Gets an edge from a vertex to otherVertex
+     * @param otherVertex
+     * @return edge or nullptr if there is no edge
+     */
+    Edge* getEdgeTo(Vertex* otherVertex) const;
+
+    /**
+    * @brief Operator == Overload
+    */
     bool operator==(const Vertex& other) const {
         return this->id == other.id;
     }
