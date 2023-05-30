@@ -12,12 +12,16 @@
 #include <unordered_map>
 #include <chrono>
 #include <unordered_set>
+#include <cmath>
 #include "VertexEdge.h"
 #include "../model/Node.h"
 #include "../model/Connection.h"
+#include "MutablePriorityQueue.h"
+
 
 class Graph {
 public:
+
     ~Graph();
 
     const unordered_map<int, Vertex *> & getVertexMap() const;
@@ -169,6 +173,11 @@ public:
     void backtrack(Vertex* currentVertex, double currentCost, std::vector<Vertex*>& currentPath,
                    std::vector<bool>& visitedVertices, double& optimalCost, std::vector<Vertex*>& optimalPath,
                    int visitedCount, int desiredPathSize, Vertex* startVertex);
+
+    unordered_map<int,Vertex *> findMST();
+    unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
+    void perfectMatching();
+    double calculateDistance(Vertex* v1, Vertex* v2);
 };
 
 #endif /* DA_TP_CLASSES_GRAPH */

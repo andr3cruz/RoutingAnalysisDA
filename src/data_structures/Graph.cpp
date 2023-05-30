@@ -3,6 +3,7 @@
 #pragma ide diagnostic ignored "modernize-use-transparent-functors"
 #pragma ide diagnostic ignored "misc-no-recursion"
 
+
 #include "Graph.h"
 
 
@@ -264,6 +265,113 @@ void Graph::tspBacktrack() {
     }
     std::cout << endl;
     std::cout << "Optimal Cost: " << optimalCost << std::endl;
+}
+
+
+std::unordered_map<int,Vertex *> Graph::findMST() {
+    if (vertexMap.empty()) {
+        return this->vertexMap;
+    }
+
+    // Reset auxiliary info
+    for(auto v : vertexMap) {
+        v.second->setDist(INF);
+        v.second->setPath(nullptr);
+        v.second->setVisited(false);
+    }
+
+    // start with an arbitrary vertex
+    Vertex* s = vertexMap[0];
+    s->setDist(0);
+
+    // initialize priority queue
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+    // process vertices in the priority queue
+    while( ! q.empty() ) {
+        auto v = q.extractMin();
+        v->setVisited(true);
+        for(auto &e : v->getAdj()) {
+            Vertex* w = e->getDest();
+            if (!w->isVisited()) {
+                auto oldDist = w->getDist();
+                if(e->getWeight() < oldDist) {
+                    w->setDist(e->getWeight());
+                    w->setPath(e);
+                    if (oldDist == INF) {
+                        q.insert(w);
+                    }
+                    else {
+                        q.decreaseKey(w);
+                    }
+                }
+            }
+        }
+    }
+
+    return this->vertexMap;
+}
+
+std::unordered_map<int, Vertex *> Graph::findOdds(unordered_map<int, Vertex *> mst){
+    unordered_map<int, Vertex *> odds;
+    for (auto v : mst){
+        if ((v.second->getAdj().size() % 2) == 0){
+            odds[v.first] = v.second;
+        }
+    }
+    return odds;
+}
+
+double Graph::calculateDistance(Vertex* v1, Vertex* v2){
+
+    Node n1 = *v1->getNode();
+    Node n2 = *v2->getNode();
+    double lat1r, lon1r, lat2r, lon2r, u, v;
+    lat1r = n1.getLatitude() * M_PI / 180;
+    lon1r = n1.getLongitude() * M_PI / 180;
+    lat2r = n2.getLatitude() * M_PI / 180;
+    lon2r = n2.getLongitude() * M_PI / 180;
+
+    u = sin((lat2r - lat1r)/2);
+    v = sin((lon2r - lon1r)/2);
+    return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+
+}
+
+void Graph::perfectMatching() {
+
+    int closest, length;
+    std::unordered_map<int, Vertex*>::iterator tmp, first;
+    // Get the minimum spanning tree
+    std::unordered_map<int, Vertex*> mst = findMST();
+
+    // Get the vertices with odd degrees from the minimum spanning tree
+    std::unordered_map<int, Vertex*> odds = findOdds(mst);
+
+    while (!odds.empty()) {
+        first = odds.begin();
+        auto it = odds.begin();
+        auto end = odds.end();
+        length = std::numeric_limits<int>::max();
+
+        for (; it != end; ++it) {
+            // If this node is closer than the current closest, update closest and length
+            if (calculateDistance(first->second, it->second) < length) {
+                length = calculateDistance(first->second, it->second);
+                closest = it->first;
+                tmp = it;
+            }
+        }
+
+        // Add edges between the two closest vertices
+        first->second->addEdge(odds[closest], length);
+        odds[closest]->addEdge(first->second, length);
+
+        // Remove the matched vertices from the odds map
+        odds.erase(tmp);
+        odds.erase(first);
+    }
+
 }
 
 #pragma clang diagnostic pop

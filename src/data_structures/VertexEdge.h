@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "../../src/model/Connection.h"
 #include "../../src/model/Node.h"
+#include "MutablePriorityQueue.h"
+#include "src/model/Node.cpp"
 
 
 class Edge;
@@ -61,6 +63,8 @@ public:
      */
     Edge *getPath() const;
 
+    double getDist() const;
+
     /**
      * @brief Getter for incoming edges to the current vertex
      * @returns a vector with all the edges that connect vertexes whose destination is the current vertex
@@ -78,6 +82,8 @@ public:
      * @param path
      */
     void setPath(Edge *path);
+
+    void setDist(double dist);
 
     /**
      * @brief Auxiliary function to add an outgoing edge to a vertex (this),with a given destination vertex (d) and edge weight (w)
@@ -109,10 +115,18 @@ public:
         return this->id == other.id;
     }
 
+
+    Node * getNode();
+
+
+    friend class MutablePriorityQueue<Vertex>;
+
 protected:
 
     /// Identifier
     int id;
+
+    Node node;
 
     /// Outgoing edges
     std::vector<Edge *> adj;

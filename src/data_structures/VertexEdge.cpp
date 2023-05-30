@@ -2,7 +2,7 @@
 
 /************************* Vertex  **************************/
 
-Vertex::Vertex(Node node): id(node.getId()) {}
+Vertex::Vertex(Node node): id(node.getId()), node(node) {}
 
 
 Edge * Vertex::addEdge(Vertex *d, double w) {
@@ -63,6 +63,10 @@ Edge* Vertex::getEdgeTo(Vertex* otherVertex) const {
     return nullptr;  // If no edge is found between the vertices
 }
 
+Node* Vertex::getNode() {
+    return &this->node;
+}
+
 /********************** Edge  ****************************/
 
 Edge::Edge(Vertex *orig, Vertex *dest, double w): orig(orig), dest(dest), weight(w) {}
@@ -87,6 +91,10 @@ double Edge::getFlow() const {
     return flow;
 }
 
+double Vertex::getDist() const {
+    return this->dist;
+}
+
 void Edge::setReverse(Edge *reverse) {
     this->reverse = reverse;
 }
@@ -97,5 +105,9 @@ void Edge::setFlow(double flow) {
 
 void Edge::setWeight(double weight) {
     this->weight = weight;
+}
+
+void Vertex::setDist(double dist) {
+    this->dist = dist;
 }
 
