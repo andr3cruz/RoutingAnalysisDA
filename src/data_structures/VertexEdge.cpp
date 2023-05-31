@@ -12,6 +12,39 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
     return newEdge;
 }
 
+bool Vertex::removeEdge(int destID) {
+    bool removedEdge = false;
+    auto it = adj.begin();
+    while (it != adj.end()) {
+        Edge *edge = *it;
+        Vertex *dest = edge->getDest();
+        if (dest->getId() == destID) {
+            it = adj.erase(it);
+            deleteEdge(edge);
+            removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
+        }
+        else {
+            it++;
+        }
+    }
+    return removedEdge;
+}
+
+void Vertex::deleteEdge(Edge *edge) {
+    Vertex *dest = edge->getDest();
+    // Remove the corresponding edge from the incoming list
+    auto it = dest->incoming.begin();
+    while (it != dest->incoming.end()) {
+        if ((*it)->getOrig()->getId() == id) {
+            it = dest->incoming.erase(it);
+        }
+        else {
+            it++;
+        }
+    }
+    delete edge;
+}
+
 bool Vertex::operator<(Vertex & vertex) const {
     return this->dist < vertex.dist;
 }

@@ -11,7 +11,6 @@
 #include "../../src/model/Connection.h"
 #include "../../src/model/Node.h"
 #include "MutablePriorityQueue.h"
-#include "src/model/Node.cpp"
 
 
 class Edge;
@@ -93,6 +92,11 @@ public:
      * @returns a pointer to the new edge created
      */
     Edge * addEdge(Vertex *dest, double w);
+
+    bool removeEdge(int destID);
+    void deleteEdge(Edge *edge);
+
+
 
     /**
      * @brief Gets if there is an edge between two vertices.

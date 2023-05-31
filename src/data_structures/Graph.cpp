@@ -6,6 +6,8 @@
 
 #include "Graph.h"
 
+#include <utility>
+
 
 Vertex * Graph::findVertex(const int &id) const {
     auto iter = vertexMap.find(id);
@@ -268,7 +270,7 @@ void Graph::tspBacktrack() {
 }
 
 
-std::unordered_map<int,Vertex *> Graph::findMST() {
+unordered_map<int,Vertex *> Graph::findMST() {
     if (vertexMap.empty()) {
         return this->vertexMap;
     }
@@ -312,7 +314,7 @@ std::unordered_map<int,Vertex *> Graph::findMST() {
     return this->vertexMap;
 }
 
-std::unordered_map<int, Vertex *> Graph::findOdds(unordered_map<int, Vertex *> mst){
+unordered_map<int, Vertex *> Graph::findOdds(unordered_map<int, Vertex *> mst){
     unordered_map<int, Vertex *> odds;
     for (auto v : mst){
         if ((v.second->getAdj().size() % 2) == 0){
@@ -326,7 +328,9 @@ double Graph::calculateDistance(Vertex* v1, Vertex* v2){
 
     Node n1 = *v1->getNode();
     Node n2 = *v2->getNode();
+
     double lat1r, lon1r, lat2r, lon2r, u, v;
+
     lat1r = n1.getLatitude() * M_PI / 180;
     lon1r = n1.getLongitude() * M_PI / 180;
     lat2r = n2.getLatitude() * M_PI / 180;
@@ -334,11 +338,12 @@ double Graph::calculateDistance(Vertex* v1, Vertex* v2){
 
     u = sin((lat2r - lat1r)/2);
     v = sin((lon2r - lon1r)/2);
+
     return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
 
 }
 
-void Graph::perfectMatching() {
+unordered_map<int, Vertex*> Graph::perfectMatching() {
 
     int closest, length;
     std::unordered_map<int, Vertex*>::iterator tmp, first;
@@ -352,7 +357,7 @@ void Graph::perfectMatching() {
         first = odds.begin();
         auto it = odds.begin();
         auto end = odds.end();
-        length = std::numeric_limits<int>::max();
+        length = INT_MAX;
 
         for (; it != end; ++it) {
             // If this node is closer than the current closest, update closest and length
@@ -372,6 +377,7 @@ void Graph::perfectMatching() {
         odds.erase(first);
     }
 
+    return odds;
 }
 
 #pragma clang diagnostic pop

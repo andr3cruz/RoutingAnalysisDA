@@ -13,6 +13,7 @@
 #include <chrono>
 #include <unordered_set>
 #include <cmath>
+#include <stack>
 #include "VertexEdge.h"
 #include "../model/Node.h"
 #include "../model/Connection.h"
@@ -73,6 +74,11 @@ public:
      *        prints the optimal path and cost
      */
     void tspBacktrack();
+
+    unordered_map<int,Vertex *> findMST();
+    unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
+    unordered_map<int, Vertex*> perfectMatching();
+    static double calculateDistance(Vertex* v1, Vertex* v2);
 
     protected:
 
@@ -174,10 +180,6 @@ public:
                    std::vector<bool>& visitedVertices, double& optimalCost, std::vector<Vertex*>& optimalPath,
                    int visitedCount, int desiredPathSize, Vertex* startVertex);
 
-    unordered_map<int,Vertex *> findMST();
-    unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
-    void perfectMatching();
-    double calculateDistance(Vertex* v1, Vertex* v2);
 };
 
 #endif /* DA_TP_CLASSES_GRAPH */
