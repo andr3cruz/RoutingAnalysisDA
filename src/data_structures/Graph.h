@@ -78,7 +78,7 @@ public:
     unordered_map<int,Vertex *> findMST();
     unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
     unordered_map<int, Vertex*> perfectMatching();
-    static double calculateDistance(Vertex* v1, Vertex* v2);
+    double calculateDistance(Vertex* v1, Vertex* v2);
 
     protected:
 

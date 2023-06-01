@@ -271,10 +271,11 @@ void Graph::tspBacktrack() {
 
 
 unordered_map<int,Vertex *> Graph::findMST() {
+
+    unordered_map<int,Vertex *> mst = vertexMap;
     if (vertexMap.empty()) {
         return this->vertexMap;
     }
-
     // Reset auxiliary info
     for(auto v : vertexMap) {
         v.second->setDist(INF);
@@ -283,7 +284,7 @@ unordered_map<int,Vertex *> Graph::findMST() {
     }
 
     // start with an arbitrary vertex
-    Vertex* s = vertexMap[0];
+    Vertex* s = vertexMap[1];
     s->setDist(0);
 
     // initialize priority queue
@@ -317,7 +318,7 @@ unordered_map<int,Vertex *> Graph::findMST() {
 unordered_map<int, Vertex *> Graph::findOdds(unordered_map<int, Vertex *> mst){
     unordered_map<int, Vertex *> odds;
     for (auto v : mst){
-        if ((v.second->getAdj().size() % 2) == 0){
+        if ((v.second->getAdj().size() % 2) != 0){
             odds[v.first] = v.second;
         }
     }
@@ -329,33 +330,36 @@ double Graph::calculateDistance(Vertex* v1, Vertex* v2){
     Node n1 = *v1->getNode();
     Node n2 = *v2->getNode();
 
-    double lat1r, lon1r, lat2r, lon2r, u, v;
+    double lat1 = n1.getLatitude(), lon1 = n1.getLongitude(), lat2 = n2.getLatitude(), lon2 = n2.getLongitude();
 
-    lat1r = n1.getLatitude() * M_PI / 180;
-    lon1r = n1.getLongitude() * M_PI / 180;
-    lat2r = n2.getLatitude() * M_PI / 180;
-    lon2r = n2.getLongitude() * M_PI / 180;
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLong = (lon2 - lon1) * M_PI / 180.0;
 
-    u = sin((lat2r - lat1r)/2);
-    v = sin((lon2r - lon1r)/2);
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
 
-    return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
+    double a = pow(sin(dLat / 2), 2) + pow(sin(dLong / 2), 2) * cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+
+    return rad * c;
 
 }
 
 unordered_map<int, Vertex*> Graph::perfectMatching() {
 
-    int closest, length;
+    double length;
+    int closest;
     std::unordered_map<int, Vertex*>::iterator tmp, first;
     // Get the minimum spanning tree
     std::unordered_map<int, Vertex*> mst = findMST();
-
+    
     // Get the vertices with odd degrees from the minimum spanning tree
     std::unordered_map<int, Vertex*> odds = findOdds(mst);
 
     while (!odds.empty()) {
         first = odds.begin();
-        auto it = odds.begin();
+        auto it = next(odds.begin(), 1);
         auto end = odds.end();
         length = INT_MAX;
 
@@ -373,6 +377,7 @@ unordered_map<int, Vertex*> Graph::perfectMatching() {
         odds[closest]->addEdge(first->second, length);
 
         // Remove the matched vertices from the odds map
+
         odds.erase(tmp);
         odds.erase(first);
     }

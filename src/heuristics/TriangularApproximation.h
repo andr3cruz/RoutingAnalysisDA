@@ -2,16 +2,16 @@
 #define ROUTINGANALYSISDA_TRIANGULARAPPROXIMATION_H
 
 #include "../data_structures/VertexEdge.h"
-#include "../data_structures/Graph.h"
+#include "../parser/ParserData.h"
+#include "../builder/GraphBuilder.h"
 
 class TriangularApproximation{
 public:
-    vector<Vertex*> eulerTour(Vertex* startVertex);
-    vector<Vertex*> makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost);
-    int findBestPath(Vertex* start);
-    vector<Vertex*> christofides(Graph graph);
-
+    static vector<Vertex*> christofides();
+private:
+    static vector<Vertex*> eulerTour(Vertex* startVertex);
+    static vector<Vertex*> makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost);
+    static int findBestPath(Vertex* start);
 };
-
 
 #endif //ROUTINGANALYSISDA_TRIANGULARAPPROXIMATION_H

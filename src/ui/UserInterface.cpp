@@ -20,6 +20,7 @@ void UserInterface::mainMenu() {
         case 2:
             break;
         case 3:
+            otherHeuristicsMenu();
             break;
         case 4:
             return;
@@ -29,5 +30,16 @@ void UserInterface::mainMenu() {
             break;
     }
 }
+
+void UserInterface::otherHeuristicsMenu() {
+    vector<Vertex*> path;
+    path = TriangularApproximation::christofides();
+    cout << "Path:";
+    for (Vertex* vertex : path){
+        cout << vertex->getNode()->getId() << " ";
+    }
+}
+
+
 
 #pragma clang diagnostic pop

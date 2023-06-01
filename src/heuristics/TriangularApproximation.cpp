@@ -85,13 +85,17 @@ int TriangularApproximation::findBestPath(Vertex* start){
 
 
 
-vector<Vertex*> TriangularApproximation::christofides(Graph graph){
+vector<Vertex*> TriangularApproximation::christofides(){
+
+    Graph graph = *parserData.getGraph();
+
     vector<Vertex*> finalPath;
     int finalCost;
 
     unordered_map<int, Vertex*> mstOdds = graph.perfectMatching();
+
     int bestCost = INT_MAX;
-    Vertex* bestVertex= mstOdds[0];
+    Vertex* bestVertex= mstOdds[1];
     for (auto elem : mstOdds) {
         int result = findBestPath(elem.second);
         if (result < bestCost){
