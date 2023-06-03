@@ -10,8 +10,8 @@ public:
     static vector<Vertex*> christofides();
 private:
     static vector<Vertex*> eulerTour(Vertex* startVertex);
-    static vector<Vertex*> makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost);
-    static int findBestPath(Vertex* start);
+    static vector<Vertex*> makeHamiltonian(vector<Vertex*> eulerTour, double& pathCost);
+    static double findBestPath(Vertex* start);
 };
 
 #endif //ROUTINGANALYSISDA_OTHERHEURISTICS_H

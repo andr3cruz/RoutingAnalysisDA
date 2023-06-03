@@ -376,7 +376,7 @@ Graph Graph::perfectMatching() {
         first = odds.begin();
         auto it = next(odds.begin(), 1);
         auto end = odds.end();
-        length = INT_MAX;
+        length = std::numeric_limits<double>::max();
 
         for (; it != end; ++it) {
             // If this node is closer than the current closest, update closest and length
@@ -410,5 +410,11 @@ void Graph::resetEdges() {
         }
     }
 }
+
+void Graph::resetVisits(){
+    for (auto vertex: vertexMap){
+        vertex.second->setVisited(false);
+    }
+};
 
 #pragma clang diagnostic pop

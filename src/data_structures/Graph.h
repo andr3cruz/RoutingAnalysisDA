@@ -78,8 +78,16 @@ public:
     Graph findMST();
     unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
     Graph perfectMatching();
+
+    /**
+     * Calculates the distance between two vertexes based on their GPS coordinates
+     * @param v1
+     * @param v2
+     * @return the said distance
+     */
     double calculateDistance(Vertex* v1, Vertex* v2);
     void resetEdges();
+    void resetVisits();
 
     protected:
 

@@ -44,7 +44,7 @@ vector<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
 
 
 
-vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost){
+vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, double& pathCost){
 
     vector<Vertex*> hamiltonianCycle;
     int n = eulerTour.size();
@@ -79,7 +79,7 @@ vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, int&
     Vertex* firstVertex = hamiltonianCycle.front();
     Edge* edge = lastVertex->getEdgeTo(firstVertex);
     if (edge == nullptr) {
-        pathCost = INT_MAX;
+        pathCost = std::numeric_limits<double>::max();
         return {};
     }
     pathCost += edge->getWeight();
@@ -88,9 +88,9 @@ vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, int&
 }
 
 
-int OtherHeuristics::findBestPath(Vertex* start){
+double OtherHeuristics::findBestPath(Vertex* start){
     vector<Vertex*> path = eulerTour(start);
-    int pathCost;
+    double pathCost;
     makeHamiltonian(path,pathCost);
     return pathCost;
 }
@@ -102,15 +102,15 @@ vector<Vertex*> OtherHeuristics::christofides(){
     Graph graph = *parserData.getGraph();
 
     vector<Vertex*> finalPath;
-    int finalCost;
+    double finalCost;
 
     Graph mstOdds = graph.perfectMatching();
     auto mstOddsVertexes = mstOdds.getVertexMap();
 
-    int bestCost = INT_MAX;
+    double bestCost = std::numeric_limits<double>::max();
     Vertex* bestVertex= mstOddsVertexes[1];
     for (auto elem : mstOddsVertexes) {
-        int result = findBestPath(elem.second);
+        double result = findBestPath(elem.second);
         if (result < bestCost){
             bestCost = result;
             bestVertex = elem.second;

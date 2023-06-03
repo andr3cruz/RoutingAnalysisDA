@@ -4,6 +4,8 @@
 #include <iostream>
 #include "../parser/ParserData.h"
 #include "../heuristics/OtherHeuristics.h"
+#include "../heuristics/TriagularApproximation.h"
+
 
 using namespace std;
 
@@ -16,6 +18,7 @@ public:
     /// Main menu
     static void mainMenu();
     static void otherHeuristicsMenu();
+    static void triangularApproximationMenu();
 };
 
 #endif //USERINTERFACE_H

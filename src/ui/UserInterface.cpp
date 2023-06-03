@@ -18,6 +18,7 @@ void UserInterface::mainMenu() {
             parserData.getGraph()->tspBacktrack();
             break;
         case 2:
+            triangularApproximationMenu();
             break;
         case 3:
             otherHeuristicsMenu();
@@ -34,6 +35,15 @@ void UserInterface::mainMenu() {
 void UserInterface::otherHeuristicsMenu() {
     vector<Vertex*> path;
     path = OtherHeuristics::christofides();
+    cout << "Path:";
+    for (Vertex* vertex : path){
+        cout << vertex->getNode()->getId() << " ";
+    }
+}
+
+void UserInterface::triangularApproximationMenu(){
+    vector<Vertex*> path;
+    path = TriangularApproximation::findBestPath();
     cout << "Path:";
     for (Vertex* vertex : path){
         cout << vertex->getNode()->getId() << " ";
