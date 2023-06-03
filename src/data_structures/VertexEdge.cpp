@@ -168,9 +168,13 @@ list<Edge *>* Vertex::getVisited() {
 }
 
 void Vertex::loadVisited() {
-    for (auto edge : adj) {
+    for (auto edge: adj) {
         visitedEdges.push_back(edge);
     }
+}
+
+set<int> *Vertex::getConnectedVertexes() {
+    return &connectedVertexes;
 }
 
 void Edge::setTraversed(bool traversed) {
@@ -180,6 +184,3 @@ void Edge::setTraversed(bool traversed) {
 bool Edge::getTraversed() const {
     return this->traversed;
 }
-
-
-

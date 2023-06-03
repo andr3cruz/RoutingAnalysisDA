@@ -9,6 +9,7 @@
 #include <limits>
 #include <algorithm>
 #include <list>
+#include <set>
 #include "../../src/model/Connection.h"
 #include "../../src/model/Node.h"
 #include "MutablePriorityQueue.h"
@@ -131,6 +132,8 @@ public:
 
     Edge *getEdgeToVisited(Vertex *otherVertex);
 
+    set<int>* getConnectedVertexes();
+
     friend class MutablePriorityQueue<Vertex>;
 
 protected:
@@ -139,6 +142,8 @@ protected:
     int id;
 
     Node node;
+
+    set<int> connectedVertexes;
 
     /// Outgoing edges
     std::vector<Edge *> adj;

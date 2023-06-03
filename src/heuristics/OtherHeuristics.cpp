@@ -125,3 +125,81 @@ vector<Vertex*> OtherHeuristics::christofides(){
     return finalPath;
 
 }
+
+
+vector<Vertex*> OtherHeuristics::linKernighan(){
+
+    Graph graph = *parserData.getGraph();
+    double totalCost = 0.0;
+
+    unordered_map<int,Vertex*> tmp = graph.getVertexMap();
+
+    // Perform nearest neighbor heuristic to construct the initial tour
+    vector<Vertex*> initTour = TriangularApproximation::nearestNeighbor(tmp[0],graph.getVertexMap().size(),totalCost);
+
+    int n = initTour.size();
+    double minTotalCost = numeric_limits<double>::max();
+    vector<Vertex*> bestTour;
+
+    for (int i = 0; i < n; i++) {
+        totalCost = 0.0;
+        vector<Vertex*> tour = TriangularApproximation::nearestNeighbor(initTour[i], n, totalCost);
+
+        if (totalCost < minTotalCost) {
+            minTotalCost = totalCost;
+            bestTour = tour;
+        }
+    }
+
+    // Apply Lin-Kernighan Heuristic to improve the initial tour
+    int iterations = 1000;  // Adjust the number of iterations as needed
+
+    while (iterations > 0) {
+        int i, j;
+        bool improvement = findBestImprovement(bestTour, i, j);
+
+        if (improvement) {
+            apply2OptExchange(bestTour, i, j);
+        } else {
+            // No further improvement found, terminate the algorithm
+            break;
+        }
+
+        iterations--;
+    }
+
+    return bestTour;
+}
+
+void OtherHeuristics::apply2OptExchange(vector<Vertex*>& tour, int i, int j) {
+    while (i < j) {
+        swap(tour[i], tour[j]);
+        i++;
+        j--;
+    }
+}
+
+bool OtherHeuristics::findBestImprovement(vector<Vertex*>& tour, int& i, int& j) {
+    int n = tour.size();
+    double bestImprovement = 0.0;
+    bool foundImprovement = false;
+
+    for (int a = 0; a < n - 2; ++a) {
+        for (int b = a + 2; b < n; ++b) {
+            int c = (a + 1) % n;
+            int d = (b + 1) % n;
+
+            double gain = tour[a]->getEdgeTo(tour[c])->getWeight() + tour[b]->getEdgeTo(tour[d])->getWeight()
+                    - tour[a]->getEdgeTo(tour[b])->getWeight() - tour[c]->getEdgeTo(tour[d])->getWeight();
+
+            if (gain > bestImprovement) {
+                bestImprovement = gain;
+                i = a;
+                j = b;
+                foundImprovement = true;
+            }
+        }
+    }
+
+    return foundImprovement;
+}
