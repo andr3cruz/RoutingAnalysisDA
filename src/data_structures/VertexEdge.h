@@ -122,6 +122,8 @@ public:
 
     Node * getNode();
 
+    bool isAllTraversed();
+
 
     friend class MutablePriorityQueue<Vertex>;
 
@@ -218,6 +220,10 @@ public:
      */
     void setWeight(double weight);
 
+    bool getTraversed();
+
+    void setTraversed(bool traversed);
+
 protected:
     /// destination vertex
     Vertex * dest;
@@ -226,7 +232,7 @@ protected:
     double weight;
 
     /// auxiliary fields
-    bool selected = false;
+    bool traversed = false;
 
     /// used for bidirectional edges
     Vertex *orig;

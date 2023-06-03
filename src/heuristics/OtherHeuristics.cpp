@@ -1,7 +1,7 @@
-#include "TriangularApproximation.h"
+#include "OtherHeuristics.h"
 
 
-vector<Vertex*> TriangularApproximation::eulerTour(Vertex* startVertex) {
+vector<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
 
     vector<Vertex*> eulerTour;
     // Create an empty stack to store the Euler tour
@@ -14,15 +14,21 @@ vector<Vertex*> TriangularApproximation::eulerTour(Vertex* startVertex) {
         Vertex* currentVertex = tourStack.top();
 
         // Check if the current vertex has any remaining outgoing edges
-        if (!currentVertex->getAdj().empty()) {
+        if (!currentVertex->isAllTraversed()) {
             // Get the next adjacent vertex
-            Vertex* nextVertex = currentVertex->getAdj()[0]->getDest();
+            for (auto edge : currentVertex->getAdj()) {
+                if (!edge->getTraversed()) {
+                    Vertex* nextVertex = edge->getDest();
 
-            // Remove the edge between the current vertex and the next vertex
-            currentVertex->removeEdge(nextVertex->getId());
+                    // Remove the edge between the current vertex and the next vertex
+                    currentVertex->getEdgeTo(nextVertex)->setTraversed(true);
+                    nextVertex->getEdgeTo(currentVertex)->setTraversed(true);
 
-            // Push the next vertex onto the stack
-            tourStack.push(nextVertex);
+                    // Push the next vertex onto the stack
+                    tourStack.push(nextVertex);
+                    break;
+                }
+            }
         }
         else {
             // If the current vertex has no more outgoing edges, it is part of the Euler tour
@@ -38,7 +44,7 @@ vector<Vertex*> TriangularApproximation::eulerTour(Vertex* startVertex) {
 
 
 
-vector<Vertex*> TriangularApproximation::makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost){
+vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, int& pathCost){
 
     vector<Vertex*> hamiltonianCycle;
     int n = eulerTour.size();
@@ -61,7 +67,9 @@ vector<Vertex*> TriangularApproximation::makeHamiltonian(vector<Vertex*> eulerTo
             if (i < n - 1) {
                 Vertex* nextVertex = eulerTour[i + 1];
                 Edge* aux= eulerTour[i]->getEdgeTo(nextVertex);
-                pathCost += aux->getWeight();
+                if (aux != nullptr) {
+                    pathCost += aux->getWeight();
+                }
             }
         }
     }
@@ -70,13 +78,17 @@ vector<Vertex*> TriangularApproximation::makeHamiltonian(vector<Vertex*> eulerTo
     Vertex* lastVertex = hamiltonianCycle.back();
     Vertex* firstVertex = hamiltonianCycle.front();
     Edge* edge = lastVertex->getEdgeTo(firstVertex);
+    if (edge == nullptr) {
+        pathCost = INT_MAX;
+        return {};
+    }
     pathCost += edge->getWeight();
 
     return hamiltonianCycle;
 }
 
 
-int TriangularApproximation::findBestPath(Vertex* start){
+int OtherHeuristics::findBestPath(Vertex* start){
     vector<Vertex*> path = eulerTour(start);
     int pathCost;
     makeHamiltonian(path,pathCost);
@@ -85,23 +97,25 @@ int TriangularApproximation::findBestPath(Vertex* start){
 
 
 
-vector<Vertex*> TriangularApproximation::christofides(){
+vector<Vertex*> OtherHeuristics::christofides(){
 
     Graph graph = *parserData.getGraph();
 
     vector<Vertex*> finalPath;
     int finalCost;
 
-    unordered_map<int, Vertex*> mstOdds = graph.perfectMatching();
+    Graph mstOdds = graph.perfectMatching();
+    auto mstOddsVertexes = mstOdds.getVertexMap();
 
     int bestCost = INT_MAX;
-    Vertex* bestVertex= mstOdds[1];
-    for (auto elem : mstOdds) {
+    Vertex* bestVertex= mstOddsVertexes[1];
+    for (auto elem : mstOddsVertexes) {
         int result = findBestPath(elem.second);
         if (result < bestCost){
             bestCost = result;
             bestVertex = elem.second;
         }
+        mstOdds.resetEdges();
     }
 
     finalPath = makeHamiltonian(eulerTour(bestVertex), finalCost);

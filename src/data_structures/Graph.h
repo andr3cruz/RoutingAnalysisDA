@@ -77,8 +77,9 @@ public:
 
     Graph findMST();
     unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
-    unordered_map<int, Vertex*> perfectMatching();
+    Graph perfectMatching();
     double calculateDistance(Vertex* v1, Vertex* v2);
+    void resetEdges();
 
     protected:
 

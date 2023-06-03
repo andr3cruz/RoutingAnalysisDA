@@ -33,7 +33,7 @@ void UserInterface::mainMenu() {
 
 void UserInterface::otherHeuristicsMenu() {
     vector<Vertex*> path;
-    path = TriangularApproximation::christofides();
+    path = OtherHeuristics::christofides();
     cout << "Path:";
     for (Vertex* vertex : path){
         cout << vertex->getNode()->getId() << " ";

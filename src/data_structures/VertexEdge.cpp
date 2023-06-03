@@ -100,6 +100,16 @@ Node* Vertex::getNode() {
     return &this->node;
 }
 
+bool Vertex::isAllTraversed(){
+    for (Edge* edge: adj){
+        if (!edge->getTraversed()){
+            return false;
+        }
+    }
+    return true;
+}
+
+
 /********************** Edge  ****************************/
 
 Edge::Edge(Vertex *orig, Vertex *dest, double w): orig(orig), dest(dest), weight(w) {}
@@ -143,4 +153,14 @@ void Edge::setWeight(double weight) {
 void Vertex::setDist(double dist) {
     this->dist = dist;
 }
+
+void Edge::setTraversed(bool traversed) {
+    this->traversed=traversed;
+}
+
+bool Edge::getTraversed() {
+    return this->traversed;
+}
+
+
 

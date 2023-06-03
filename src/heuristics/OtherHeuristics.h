@@ -1,11 +1,11 @@
-#ifndef ROUTINGANALYSISDA_TRIANGULARAPPROXIMATION_H
-#define ROUTINGANALYSISDA_TRIANGULARAPPROXIMATION_H
+#ifndef ROUTINGANALYSISDA_OTHERHEURISTICS_H
+#define ROUTINGANALYSISDA_OTHERHEURISTICS_H
 
 #include "../data_structures/VertexEdge.h"
 #include "../parser/ParserData.h"
 #include "../builder/GraphBuilder.h"
 
-class TriangularApproximation{
+class OtherHeuristics{
 public:
     static vector<Vertex*> christofides();
 private:
@@ -14,4 +14,4 @@ private:
     static int findBestPath(Vertex* start);
 };
 
-#endif //ROUTINGANALYSISDA_TRIANGULARAPPROXIMATION_H
+#endif //ROUTINGANALYSISDA_OTHERHEURISTICS_H

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "../parser/ParserData.h"
-#include "../heuristics/TriangularApproximation.h"
+#include "../heuristics/OtherHeuristics.h"
 
 using namespace std;
 

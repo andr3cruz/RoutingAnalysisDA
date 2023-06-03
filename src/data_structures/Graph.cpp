@@ -361,18 +361,16 @@ double Graph::calculateDistance(Vertex* v1, Vertex* v2){
 
 }
 
-unordered_map<int, Vertex*> Graph::perfectMatching() {
+Graph Graph::perfectMatching() {
 
     double length;
     int closest;
     std::unordered_map<int, Vertex*>::iterator tmp, first;
     // Get the minimum spanning tree
-    std::unordered_map<int, Vertex*> mst = findMST().vertexMap;
+    Graph mst = findMST();
 
-
-    
     // Get the vertices with odd degrees from the minimum spanning tree
-    std::unordered_map<int, Vertex*> odds = findOdds(mst);
+    std::unordered_map<int, Vertex*> odds = findOdds(mst.vertexMap);
 
     while (!odds.empty()) {
         first = odds.begin();
@@ -389,9 +387,12 @@ unordered_map<int, Vertex*> Graph::perfectMatching() {
             }
         }
 
+        mst.vertexMap[first->first]->addEdge(mst.vertexMap[closest], length);
+        mst.vertexMap[closest]->addEdge(mst.vertexMap[first->first], length);
+
         // Add edges between the two closest vertices
-        first->second->addEdge(odds[closest], length);
-        odds[closest]->addEdge(first->second, length);
+        //first->second->addEdge(odds[closest], length);
+        //odds[closest]->addEdge(first->second, length);
 
         // Remove the matched vertices from the odds map
 
@@ -399,7 +400,15 @@ unordered_map<int, Vertex*> Graph::perfectMatching() {
         odds.erase(first);
     }
 
-    return odds;
+    return mst;
+}
+
+void Graph::resetEdges() {
+    for (auto vertex: vertexMap){
+        for (auto edge : vertex.second->getAdj()){
+            edge->setTraversed(false);
+        }
+    }
 }
 
 #pragma clang diagnostic pop
