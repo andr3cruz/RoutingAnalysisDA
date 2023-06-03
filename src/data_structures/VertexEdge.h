@@ -11,6 +11,7 @@
 #include "../../src/model/Connection.h"
 #include "../../src/model/Node.h"
 #include "MutablePriorityQueue.h"
+#include <set>
 
 
 class Edge;
@@ -124,6 +125,7 @@ public:
 
     bool isAllTraversed();
 
+    set<int>* getConnectedVertexes();
 
     friend class MutablePriorityQueue<Vertex>;
 
@@ -133,6 +135,8 @@ protected:
     int id;
 
     Node node;
+
+    set<int> connectedVertexes;
 
     /// Outgoing edges
     std::vector<Edge *> adj;

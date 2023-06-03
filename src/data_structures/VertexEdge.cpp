@@ -154,6 +154,10 @@ void Vertex::setDist(double dist) {
     this->dist = dist;
 }
 
+set<int> *Vertex::getConnectedVertexes() {
+    return &connectedVertexes;
+}
+
 void Edge::setTraversed(bool traversed) {
     this->traversed=traversed;
 }

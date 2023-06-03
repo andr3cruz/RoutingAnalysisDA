@@ -28,6 +28,9 @@ bool Graph::addVertex(const Node &node) {
 bool Graph::addBidirectionalEdge(const Node &sourc, const Node &dest, const Connection& w) const {
     auto v1 = findVertex(sourc.getId());
     auto v2 = findVertex(dest.getId());
+    v1->getConnectedVertexes()->insert(v2->getId());
+    v2->getConnectedVertexes()->insert(v1->getId());
+
     if (v1 == nullptr || v2 == nullptr)
         return false;
     auto e1 = v1->addEdge(v2, w.getDistance());
@@ -380,8 +383,8 @@ Graph Graph::perfectMatching() {
 
         for (; it != end; ++it) {
             // If this node is closer than the current closest, update closest and length
-            if (calculateDistance(first->second, it->second) < length) {
-                length = calculateDistance(first->second, it->second);
+            if (first->second->getEdgeTo(it->second)->getWeight() < length) {
+                length = first->second->getEdgeTo(it->second)->getWeight();
                 closest = it->first;
                 tmp = it;
             }

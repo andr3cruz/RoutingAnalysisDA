@@ -6,6 +6,23 @@ Graph GraphBuilder::buildGraph(const set<Node>& nodes, const vector<Connection>&
     buildNodes(nodes, networkGraph);
     buildEdges(nodes, connections, networkGraph);
 
+    auto map = networkGraph.getVertexMap();
+
+    for (int i = 0 ; i < map.size(); i++) {
+        for (int j = i+1 ; j < map.size(); j++) {
+           auto pSet = map[i]->getConnectedVertexes();
+           if (pSet->find(map[j]->getId()) == pSet->end()) {
+               auto vertex1 = map[i];
+               auto vertex2 = map[j];
+               auto node1 = *vertex1->getNode();
+               auto node2 = *vertex2->getNode();
+               double weight = networkGraph.calculateDistance(vertex1, vertex2);
+               networkGraph.addBidirectionalEdge(node1, node1, Connection(node1.getId(), node2.getId(), weight));
+
+           }
+        }
+    }
+
     return networkGraph;
 }
 
