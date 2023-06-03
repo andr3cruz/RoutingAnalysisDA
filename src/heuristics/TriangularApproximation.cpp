@@ -4,11 +4,16 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
     Vertex* currentVertex = startVertex;
     currentVertex->setVisited(true);
     tour.push_back(currentVertex);
+    Vertex* loopCheck = nullptr;
 
     while (tour.size() < n) {
         Edge* nextEdge = nullptr;
         double minDistance = std::numeric_limits<double>::max();
 
+        if (currentVertex == loopCheck){
+            totalCost = std::numeric_limits<double>::max();
+            return {};
+        }
         // Find the nearest unvisited neighbor
         for (Edge* edge : currentVertex->getAdj()) {
             Vertex* neighbor = edge->getDest();
@@ -17,7 +22,7 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
                 minDistance = edge->getWeight();
             }
         }
-
+        loopCheck = currentVertex;
         if (nextEdge != nullptr) {
             Vertex* nextVertex = nextEdge->getDest();
             nextVertex->setVisited(true);
@@ -25,7 +30,6 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
             currentVertex = nextVertex;
         }
         totalCost += minDistance;
-
     }
 
     return tour;
