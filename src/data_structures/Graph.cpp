@@ -270,11 +270,12 @@ void Graph::tspBacktrack() {
 }
 
 
-unordered_map<int,Vertex *> Graph::findMST() {
+Graph Graph::findMST() {
 
-    unordered_map<int,Vertex *> mst = vertexMap;
+    Graph mstGraph;
+
     if (vertexMap.empty()) {
-        return this->vertexMap;
+        return mstGraph;
     }
     // Reset auxiliary info
     for(auto v : vertexMap) {
@@ -312,7 +313,21 @@ unordered_map<int,Vertex *> Graph::findMST() {
         }
     }
 
-    return this->vertexMap;
+    for (auto& entry : vertexMap) {
+        Vertex* v = entry.second;
+        mstGraph.addVertex(*v->getNode());
+    }
+
+    for (auto& entry : vertexMap) {
+        Vertex* v = entry.second;
+        if (v->getPath() != nullptr) {
+            Vertex* destVertex = v->getPath()->getOrig();
+            double weight = v->getPath()->getWeight();
+            mstGraph.addBidirectionalEdge(*v->getNode(), *destVertex->getNode(), Connection(v->getId(), destVertex->getId(), weight));
+        }
+    }
+
+    return mstGraph;
 }
 
 unordered_map<int, Vertex *> Graph::findOdds(unordered_map<int, Vertex *> mst){
@@ -352,7 +367,9 @@ unordered_map<int, Vertex*> Graph::perfectMatching() {
     int closest;
     std::unordered_map<int, Vertex*>::iterator tmp, first;
     // Get the minimum spanning tree
-    std::unordered_map<int, Vertex*> mst = findMST();
+    std::unordered_map<int, Vertex*> mst = findMST().vertexMap;
+
+
     
     // Get the vertices with odd degrees from the minimum spanning tree
     std::unordered_map<int, Vertex*> odds = findOdds(mst);

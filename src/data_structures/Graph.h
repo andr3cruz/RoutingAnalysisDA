@@ -75,7 +75,7 @@ public:
      */
     void tspBacktrack();
 
-    unordered_map<int,Vertex *> findMST();
+    Graph findMST();
     unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
     unordered_map<int, Vertex*> perfectMatching();
     double calculateDistance(Vertex* v1, Vertex* v2);
