@@ -405,9 +405,8 @@ Graph Graph::perfectMatching() {
 
 void Graph::resetEdges() {
     for (auto vertex: vertexMap){
-        for (auto edge : vertex.second->getAdj()){
-            edge->setTraversed(false);
-        }
+        vertex.second->getVisited()->clear();
+        vertex.second->loadVisited();
     }
 }
 

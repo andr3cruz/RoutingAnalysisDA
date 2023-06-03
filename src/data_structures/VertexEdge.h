@@ -8,6 +8,7 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include <list>
 #include "../../src/model/Connection.h"
 #include "../../src/model/Node.h"
 #include "MutablePriorityQueue.h"
@@ -119,11 +120,16 @@ public:
         return this->id == other.id;
     }
 
+    list<Edge *>* getVisited();
+
+    void loadVisited();
+
 
     Node * getNode();
 
     bool isAllTraversed();
 
+    Edge *getEdgeToVisited(Vertex *otherVertex);
 
     friend class MutablePriorityQueue<Vertex>;
 
@@ -136,6 +142,8 @@ protected:
 
     /// Outgoing edges
     std::vector<Edge *> adj;
+
+    std::list<Edge *> visitedEdges;
 
     /// Auxiliary fields
 
@@ -220,7 +228,7 @@ public:
      */
     void setWeight(double weight);
 
-    bool getTraversed();
+    bool getTraversed() const;
 
     void setTraversed(bool traversed);
 

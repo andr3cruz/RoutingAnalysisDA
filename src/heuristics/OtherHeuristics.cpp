@@ -12,22 +12,23 @@ vector<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
 
     while (!tourStack.empty()) {
         Vertex* currentVertex = tourStack.top();
+        list<Edge *>* temp1 = currentVertex->getVisited();
 
         // Check if the current vertex has any remaining outgoing edges
-        if (!currentVertex->isAllTraversed()) {
+        if (!temp1->empty()) {
             // Get the next adjacent vertex
-            for (auto edge : currentVertex->getAdj()) {
-                if (!edge->getTraversed()) {
-                    Vertex* nextVertex = edge->getDest();
+            for (auto edge : *temp1) {
+                Vertex* nextVertex = edge->getDest();
 
-                    // Remove the edge between the current vertex and the next vertex
-                    currentVertex->getEdgeTo(nextVertex)->setTraversed(true);
-                    nextVertex->getEdgeTo(currentVertex)->setTraversed(true);
+                list<Edge *>* temp2 = nextVertex->getVisited();
 
-                    // Push the next vertex onto the stack
-                    tourStack.push(nextVertex);
-                    break;
-                }
+                // Remove the edge between the current vertex and the next vertex
+                temp1->remove(currentVertex->getEdgeToVisited(nextVertex));
+                temp2->remove(nextVertex->getEdgeToVisited(currentVertex));
+
+                // Push the next vertex onto the stack
+                 tourStack.push(nextVertex);
+                 break;
             }
         }
         else {
@@ -109,6 +110,7 @@ vector<Vertex*> OtherHeuristics::christofides(){
 
     double bestCost = std::numeric_limits<double>::max();
     Vertex* bestVertex= mstOddsVertexes[1];
+    mstOdds.resetEdges();
     for (auto elem : mstOddsVertexes) {
         double result = findBestPath(elem.second);
         if (result < bestCost){

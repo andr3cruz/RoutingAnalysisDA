@@ -96,6 +96,15 @@ Edge* Vertex::getEdgeTo(Vertex* otherVertex) const {
     return nullptr;  // If no edge is found between the vertices
 }
 
+Edge* Vertex::getEdgeToVisited(Vertex* otherVertex) {
+    for (Edge* edge : visitedEdges) {
+        if (edge->getOrig() == this && edge->getDest() == otherVertex) {
+            return edge;
+        }
+    }
+    return nullptr;  // If no edge is found between the vertices
+}
+
 Node* Vertex::getNode() {
     return &this->node;
 }
@@ -154,11 +163,21 @@ void Vertex::setDist(double dist) {
     this->dist = dist;
 }
 
+list<Edge *>* Vertex::getVisited() {
+    return &visitedEdges;
+}
+
+void Vertex::loadVisited() {
+    for (auto edge : adj) {
+        visitedEdges.push_back(edge);
+    }
+}
+
 void Edge::setTraversed(bool traversed) {
     this->traversed=traversed;
 }
 
-bool Edge::getTraversed() {
+bool Edge::getTraversed() const {
     return this->traversed;
 }
 
