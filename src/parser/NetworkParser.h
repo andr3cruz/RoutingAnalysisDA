@@ -48,6 +48,9 @@ public:
      * @returns a set with all node objects
      */
     set<Node> parseNodes(const string& file);
-};
+
+    set<Node> parseDefaultNodes();
+
+    };
 
 #endif //NETWORK_PARSER_H

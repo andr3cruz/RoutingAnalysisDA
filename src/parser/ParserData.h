@@ -42,6 +42,18 @@ public:
     void rebuildGraph();
 
     /**
+ * @brief Rebuilds the graph using a new edges and nodes files
+ * @details Time Complexity: O(V+E), being V the number of vertexes and E the number of edges
+ */
+    void rebuildGraph(const string &nodesPath, const string &edgesPath, const string &dataSetName);
+
+    /**
+    * @brief Rebuilds the graph using a new edges file
+    * @details Time Complexity: O(V+E), being V the number of vertexes and E the number of edges
+    */
+    void rebuildGraph(const string &edgesPath, const string &dataSetName);
+
+    /**
      * @brief Searches the set for the node with "id"
      * @param id
      * @returns true if found and false otherwise
@@ -53,6 +65,10 @@ public:
      * @details Time Complexity: O(V+E), being V the number of vertexes and E the number of edges
      */
     ParserData();
+
+    const string &getDataSet() const;
+
+    void setDataSet(const string &newDataSet);
 
 private:
     /// Network Parser object
@@ -69,6 +85,9 @@ private:
 
     /// Empty Network Graph
     Graph emptyGraph = Graph();
+
+    /// Current Data Set
+    string dataSet;
 };
 
 inline ParserData parserData;

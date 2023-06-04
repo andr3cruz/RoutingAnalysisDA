@@ -19,6 +19,15 @@ public:
     static void mainMenu();
     static void otherHeuristicsMenu();
     static void triangularApproximationMenu();
+    static void chooseDataSetMenu();
+
+    static void toyGraphsMenu();
+
+    static void mediumSizedGraphsMenu();
+
+    static void realWorldGraphsMenu();
+
+    static void customGraphsMenu();
 };
 
 #endif //USERINTERFACE_H

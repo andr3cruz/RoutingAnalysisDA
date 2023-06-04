@@ -96,6 +96,17 @@ set<Node> NetworkParser::parseNodes(const string& file) {
     return data;
 }
 
+set<Node> NetworkParser::parseDefaultNodes() {
+    int numberOfNodes = 1000;
+    set<Node> data;
+
+    for (int i=0; i<numberOfNodes; i++) {
+        data.insert(Node(i, 0, 0));
+    }
+    return data;
+}
+
+
 string NetworkParser::lineTransformer(string line) {
     bool inQuotes = false;
 
