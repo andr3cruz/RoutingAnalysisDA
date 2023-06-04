@@ -259,8 +259,17 @@ void Graph::tspBacktrack() {
         }
     }
 
+    // Start measuring the execution time
+    std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
     backtrack(startVertex, 0, currentPath, visitedVertices, optimalCost, optimalPath, visitedCount,
                  desiredPathSize, startVertex);
+
+    // Stop measuring the execution time
+    std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+
+    // Calculate the duration in milliseconds
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 
     std::cout << "Optimal Path: ";
     for (int i = optimalPath.size() - 1; i >= 0; i--) {
@@ -268,6 +277,7 @@ void Graph::tspBacktrack() {
     }
     std::cout << endl;
     std::cout << "Optimal Cost: " << optimalCost << std::endl;
+    std::cout << "Execution time: " << duration << " ms" << std::endl;
 }
 
 
