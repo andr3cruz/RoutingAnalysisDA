@@ -19,6 +19,9 @@
 #include "../model/Connection.h"
 #include "MutablePriorityQueue.h"
 
+/**
+ * @brief Class that defines a Graph
+ */
 
 class Graph {
 public:

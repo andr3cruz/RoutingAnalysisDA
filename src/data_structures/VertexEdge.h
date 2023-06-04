@@ -139,14 +139,14 @@ protected:
     /// Identifier
     int id;
 
+    /// Node
     Node node;
 
     /// Outgoing edges
     std::vector<Edge *> adj;
 
+    /// Visited Edges
     std::list<Edge *> visitedEdges;
-
-    /// Auxiliary fields
 
     /// marks if a vertex has been visited or not
     bool visited = false;
@@ -229,8 +229,16 @@ public:
      */
     void setWeight(double weight);
 
+    /**
+     * @brief Getter for an edge's (line segment) traversed value
+     * @returns boolean
+    */
     bool getTraversed() const;
 
+    /**
+     * @brief Set's the line segment's traversed value
+     * @param traversed
+    */
     void setTraversed(bool traversed);
 
 protected:
