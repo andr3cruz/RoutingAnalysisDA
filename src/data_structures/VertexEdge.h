@@ -132,8 +132,6 @@ public:
 
     Edge *getEdgeToVisited(Vertex *otherVertex);
 
-    set<int>* getConnectedVertexes();
-
     friend class MutablePriorityQueue<Vertex>;
 
 protected:
@@ -142,8 +140,6 @@ protected:
     int id;
 
     Node node;
-
-    set<int> connectedVertexes;
 
     /// Outgoing edges
     std::vector<Edge *> adj;

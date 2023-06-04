@@ -1,12 +1,12 @@
-
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-use-transparent-functors"
 #pragma ide diagnostic ignored "misc-no-recursion"
 
-
 #include "Graph.h"
-
+#include "../parser/ParserData.h"
 #include <utility>
+
+Graph parderDataGraph = *ParserData().getGraph();
 
 
 Vertex * Graph::findVertex(const int &id) const {
@@ -28,8 +28,6 @@ bool Graph::addVertex(const Node &node) {
 bool Graph::addBidirectionalEdge(const Node &sourc, const Node &dest, const Connection& w) const {
     auto v1 = findVertex(sourc.getId());
     auto v2 = findVertex(dest.getId());
-    v1->getConnectedVertexes()->insert(v2->getId());
-    v2->getConnectedVertexes()->insert(v1->getId());
 
     if (v1 == nullptr || v2 == nullptr)
         return false;
@@ -382,13 +380,29 @@ Graph Graph::perfectMatching() {
         length = std::numeric_limits<double>::max();
 
         for (; it != end; ++it) {
+            auto vertexId1 = first->second->getId();
+            auto vertexId2 = it->second->getId();
+
+            Vertex* vertex1 = parderDataGraph.findVertex(vertexId1);
+            Vertex* vertex2 = parderDataGraph.findVertex(vertexId2);
+
+            auto edge = vertex1->getEdgeTo(vertex2);
+
+            double tempDistance;
+
+            if (edge == nullptr){
+                tempDistance = calculateDistance(first->second, it->second);
+            } else {
+                tempDistance = edge->getWeight();
+            }
             // If this node is closer than the current closest, update closest and length
-            if (first->second->getEdgeTo(it->second)->getWeight() < length) {
-                length = first->second->getEdgeTo(it->second)->getWeight();
+            if (tempDistance < length) {
+                length = tempDistance;
                 closest = it->first;
                 tmp = it;
             }
         }
+
 
         mst.vertexMap[first->first]->addEdge(mst.vertexMap[closest], length);
         mst.vertexMap[closest]->addEdge(mst.vertexMap[first->first], length);
@@ -408,7 +422,9 @@ Graph Graph::perfectMatching() {
 
 void Graph::resetEdges() {
     for (auto vertex: vertexMap){
-        vertex.second->getVisited()->clear();
+        if (!vertex.second->getVisited()->empty()) {
+            vertex.second->getVisited()->clear();
+        }
         vertex.second->loadVisited();
     }
 }
@@ -417,6 +433,6 @@ void Graph::resetVisits(){
     for (auto vertex: vertexMap){
         vertex.second->setVisited(false);
     }
-};
+}
 
 #pragma clang diagnostic pop

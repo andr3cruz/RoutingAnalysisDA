@@ -173,10 +173,6 @@ void Vertex::loadVisited() {
     }
 }
 
-set<int> *Vertex::getConnectedVertexes() {
-    return &connectedVertexes;
-}
-
 void Edge::setTraversed(bool traversed) {
     this->traversed=traversed;
 }

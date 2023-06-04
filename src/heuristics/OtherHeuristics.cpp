@@ -84,7 +84,6 @@ vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, doub
         return {};
     }
     pathCost += edge->getWeight();
-
     return hamiltonianCycle;
 }
 

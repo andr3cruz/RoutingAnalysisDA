@@ -11,7 +11,8 @@ void UserInterface::mainMenu() {
     cout << "3. Other Heuristics\n";
     cout << "4. Exit\n";
     cout << "Enter your choice: ";
-    cin >> choice;
+    //cin >> choice;
+    choice = 3;
 
     switch (choice) {
         case 1:
