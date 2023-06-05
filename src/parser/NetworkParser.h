@@ -48,6 +48,14 @@ public:
      * @returns a set with all node objects
      */
     set<Node> parseNodes(const string& file);
-};
+
+    /**
+     * @brief Generates a set of default Node objects
+     * @details Time Complexity: O(V), being V the number of vertexes
+     * @returns a set with all node objects
+    */
+    set<Node> parseDefaultNodes();
+
+    };
 
 #endif //NETWORK_PARSER_H

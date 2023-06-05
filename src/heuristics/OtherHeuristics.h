@@ -6,6 +6,10 @@
 #include "../builder/GraphBuilder.h"
 #include "TriagularApproximation.h"
 
+/**
+ * @brief A class that implements various heuristics for solving graph optimization problems.
+ */
+
 class OtherHeuristics{
 public:
     static pair<list<Vertex*>, double> christofides();

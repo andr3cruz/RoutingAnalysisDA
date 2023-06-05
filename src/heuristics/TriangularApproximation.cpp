@@ -13,7 +13,6 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
 
         if (currentVertex == loopCheck){
             totalCost = std::numeric_limits<double>::max();
-            cout << totalCost << "\n";
             return {};
         }
         // Find the nearest unvisited neighbor
@@ -39,15 +38,16 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
     totalCost += (*(*tour.rbegin())->getDistances())[0];
     tour.push_back(startVertex);
 
-    cout << totalCost << "\n";
     return tour;
 }
 
-vector<Vertex*> TriangularApproximation::triangularApprox(){
+pair<vector<Vertex*>,double> TriangularApproximation::triangularApprox(){
     Graph graph = *parserData.getGraph();
     graph.resetVisits();
     unordered_map<int,Vertex*> allVertexes = graph.getVertexMap();
     double cost;
-    return nearestNeighbor(allVertexes[0],allVertexes.size(),cost);
+    auto path = nearestNeighbor(allVertexes[0],allVertexes.size(),cost);
+
+    return {path, cost};
 }
 
