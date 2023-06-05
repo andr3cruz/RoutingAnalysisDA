@@ -1,4 +1,5 @@
 #include "TriagularApproximation.h"
+
 vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, int n, double &totalCost) {
     vector<Vertex*> tour;
     Vertex* currentVertex = startVertex;
@@ -12,14 +13,17 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
 
         if (currentVertex == loopCheck){
             totalCost = std::numeric_limits<double>::max();
+            cout << totalCost << "\n";
             return {};
         }
         // Find the nearest unvisited neighbor
         for (Edge* edge : currentVertex->getAdj()) {
             Vertex* neighbor = edge->getDest();
-            if (!neighbor->isVisited() && edge->getWeight() < minDistance) {
+            int neighborId = neighbor->getId();
+            auto temp = *currentVertex->getDistances();
+            if (!neighbor->isVisited() && temp[neighborId] < minDistance) {
                 nextEdge = edge;
-                minDistance = edge->getWeight();
+                minDistance = temp[neighborId];
             }
         }
         loopCheck = currentVertex;
@@ -32,26 +36,18 @@ vector<Vertex*> TriangularApproximation::nearestNeighbor(Vertex* startVertex, in
         totalCost += minDistance;
     }
 
+    totalCost += (*(*tour.rbegin())->getDistances())[0];
+    tour.push_back(startVertex);
+
+    cout << totalCost << "\n";
     return tour;
 }
 
-vector<Vertex*> TriangularApproximation::findBestPath(){
+vector<Vertex*> TriangularApproximation::triangularApprox(){
     Graph graph = *parserData.getGraph();
     graph.resetVisits();
-    int n = graph.getVertexMap().size();
-    Vertex* bestVertex;
-    double bestCost = std::numeric_limits<double>::max();
+    unordered_map<int,Vertex*> allVertexes = graph.getVertexMap();
     double cost;
-    for (auto pair : graph.getVertexMap()){
-        cost = 0;
-        nearestNeighbor(pair.second,n,cost);
-        if (cost < bestCost){
-            bestCost = cost;
-            bestVertex = pair.second;
-        }
-        graph.resetVisits();
-    }
-    cost = 0;
-    return nearestNeighbor(bestVertex,n,cost);
+    return nearestNeighbor(allVertexes[0],allVertexes.size(),cost);
 }
 

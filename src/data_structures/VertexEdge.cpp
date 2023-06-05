@@ -118,6 +118,13 @@ bool Vertex::isAllTraversed(){
     return true;
 }
 
+set<int> *Vertex::getConnectedVertexes() {
+    return &connectedVertexes;
+}
+
+vector<double> *Vertex::getDistances() {
+    return &distances;
+}
 
 /********************** Edge  ****************************/
 

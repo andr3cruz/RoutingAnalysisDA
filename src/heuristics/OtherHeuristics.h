@@ -8,16 +8,10 @@
 
 class OtherHeuristics{
 public:
-    static vector<Vertex*> christofides();
-    static vector<Vertex*> linKernighan();
-
+    static pair<list<Vertex*>, double> christofides();
 private:
-    static vector<Vertex*> eulerTour(Vertex* startVertex);
-    static vector<Vertex*> makeHamiltonian(vector<Vertex*> eulerTour, double& pathCost);
-    static double findBestPath(Vertex* start);
-    static void apply2OptExchange(vector<Vertex*>& tour, int i, int j);
-    static bool findBestImprovement(vector<Vertex*>& tour, int& i, int& j);
-
+    static list<Vertex*> eulerTour(Vertex* startVertex);
+    static void makeHamiltonian(list<Vertex*>& eulerTour, double& pathCost);
 };
 
 #endif //ROUTINGANALYSISDA_OTHERHEURISTICS_H

@@ -29,6 +29,9 @@ bool Graph::addBidirectionalEdge(const Node &sourc, const Node &dest, const Conn
     auto v1 = findVertex(sourc.getId());
     auto v2 = findVertex(dest.getId());
 
+    v1->getConnectedVertexes()->insert(v2->getId());
+    v2->getConnectedVertexes()->insert(v1->getId());
+
     if (v1 == nullptr || v2 == nullptr)
         return false;
     auto e1 = v1->addEdge(v2, w.getDistance());
@@ -286,7 +289,7 @@ Graph Graph::findMST() {
     }
 
     // start with an arbitrary vertex
-    Vertex* s = vertexMap[1];
+    Vertex* s = vertexMap[0];
     s->setDist(0);
 
     // initialize priority queue
@@ -390,11 +393,12 @@ Graph Graph::perfectMatching() {
 
             double tempDistance;
 
-            if (edge == nullptr){
-                tempDistance = calculateDistance(first->second, it->second);
-            } else {
+            if (edge != nullptr){
                 tempDistance = edge->getWeight();
+            } else {
+                continue;
             }
+
             // If this node is closer than the current closest, update closest and length
             if (tempDistance < length) {
                 length = tempDistance;
@@ -406,10 +410,6 @@ Graph Graph::perfectMatching() {
 
         mst.vertexMap[first->first]->addEdge(mst.vertexMap[closest], length);
         mst.vertexMap[closest]->addEdge(mst.vertexMap[first->first], length);
-
-        // Add edges between the two closest vertices
-        //first->second->addEdge(odds[closest], length);
-        //odds[closest]->addEdge(first->second, length);
 
         // Remove the matched vertices from the odds map
 
@@ -433,6 +433,43 @@ void Graph::resetVisits(){
     for (auto vertex: vertexMap){
         vertex.second->setVisited(false);
     }
+}
+
+void Graph::dijkstra(const int &origin) {
+    // Initialize the vertices
+    for(auto v : vertexMap) {
+        v.second->setDist(INF);
+        v.second->setPath(nullptr);
+    }
+    auto s = findVertex(origin);
+    s->setDist(0);
+
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+    while( ! q.empty() ) {
+        auto v = q.extractMin();
+        for(auto e : v->getAdj()) {
+            auto oldDist = e->getDest()->getDist();
+            if (relax(e)) {
+                if (oldDist == INF) {
+                    q.insert(e->getDest());
+                }
+                else {
+                    q.decreaseKey(e->getDest());
+                }
+            }
+        }
+    }
+}
+
+bool Graph::relax(Edge *edge) {
+    if (edge->getOrig()->getDist() + edge->getWeight() < edge->getDest()->getDist()) {
+        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getWeight());
+        edge->getDest()->setPath(edge);
+        return true;
+    }
+    else
+        return false;
 }
 
 #pragma clang diagnostic pop

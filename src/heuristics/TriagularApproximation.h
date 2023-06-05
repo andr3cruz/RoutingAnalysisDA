@@ -9,7 +9,7 @@
 class TriangularApproximation {
 public:
     static vector<Vertex *> nearestNeighbor(Vertex *startVertex, int n, double &totalCost);
-    static vector<Vertex*> findBestPath();
+    static vector<Vertex*> triangularApprox();
 };
 
 #endif //ROUTINGANALYSISDA_TRIAGULARAPPROXIMATION_H

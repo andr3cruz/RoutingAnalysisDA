@@ -5,6 +5,8 @@
 #include "../data_structures/Graph.h"
 #include "../model/Node.h"
 #include "../model/Connection.h"
+#include "../heuristics/TriagularApproximation.h"
+
 
 using namespace std;
 
@@ -32,6 +34,9 @@ private:
      * @param graph
      */
     static void buildNodes(const set<Node>& nodes, Graph& graph);
+
+    static void setUp(Graph graph);
+
 
     /**
      * @brief Edges builder

@@ -88,8 +88,10 @@ public:
     double calculateDistance(Vertex* v1, Vertex* v2);
     void resetEdges();
     void resetVisits();
+    void dijkstra(const int &origin);
+    bool relax(Edge *edge);
 
-    protected:
+protected:
 
     /// Vertex Map
     std::unordered_map<int, Vertex *> vertexMap;

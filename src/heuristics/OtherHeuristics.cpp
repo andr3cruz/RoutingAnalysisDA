@@ -1,9 +1,9 @@
 #include "OtherHeuristics.h"
 
 
-vector<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
+list<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
 
-    vector<Vertex*> eulerTour;
+    list<Vertex*> eulerTour;
     // Create an empty stack to store the Euler tour
     stack<Vertex*> tourStack;
 
@@ -45,160 +45,42 @@ vector<Vertex*> OtherHeuristics::eulerTour(Vertex* startVertex) {
 
 
 
-vector<Vertex*> OtherHeuristics::makeHamiltonian(vector<Vertex*> eulerTour, double& pathCost){
+void OtherHeuristics::makeHamiltonian(list<Vertex*>& eulerTour, double& pathCost){
 
-    vector<Vertex*> hamiltonianCycle;
-    int n = eulerTour.size();
+    set<Vertex *> aux;
+    list<Vertex *> temp;
 
-    // Initialize visited array
-    vector<bool> visited(n, false);
-
-    pathCost = 0;
-
-    // Traverse the Euler tour
-    for (int i = 0; i < n; i++) {
-        Vertex* vertex = eulerTour[i];
-
-        // Check if the vertex has been visited
-        if (!visited[vertex->getId()]) {
-            hamiltonianCycle.push_back(vertex);
-            visited[vertex->getId()] = true;
-
-            // Add the cost of the edge to the pathCost
-            if (i < n - 1) {
-                Vertex* nextVertex = eulerTour[i + 1];
-                Edge* aux= eulerTour[i]->getEdgeTo(nextVertex);
-                if (aux != nullptr) {
-                    pathCost += aux->getWeight();
-                }
-            }
+    for (auto elem = eulerTour.begin(); elem != eulerTour.end(); elem++) {
+        auto next = std::next(elem, 1);
+        if (next != eulerTour.end()) {
+            pathCost += (*elem)->getEdgeTo(*next)->getWeight();
+        }
+        if (aux.find(*elem) == aux.end()) {
+            aux.insert(*elem);
+            temp.push_back(*elem);
         }
     }
+    temp.push_back(eulerTour.back());
 
-    // Add the cost of the last edge to the pathCost
-    Vertex* lastVertex = hamiltonianCycle.back();
-    Vertex* firstVertex = hamiltonianCycle.front();
-    Edge* edge = lastVertex->getEdgeTo(firstVertex);
-    if (edge == nullptr) {
-        pathCost = std::numeric_limits<double>::max();
-        return {};
-    }
-    pathCost += edge->getWeight();
-    return hamiltonianCycle;
+    eulerTour = temp;
 }
 
-
-double OtherHeuristics::findBestPath(Vertex* start){
-    vector<Vertex*> path = eulerTour(start);
-    double pathCost;
-    makeHamiltonian(path,pathCost);
-    return pathCost;
-}
-
-
-
-vector<Vertex*> OtherHeuristics::christofides(){
+pair<list<Vertex*>, double> OtherHeuristics::christofides(){
 
     Graph graph = *parserData.getGraph();
-
-    vector<Vertex*> finalPath;
-    double finalCost;
 
     Graph mstOdds = graph.perfectMatching();
     auto mstOddsVertexes = mstOdds.getVertexMap();
 
-    double bestCost = std::numeric_limits<double>::max();
-    Vertex* bestVertex= mstOddsVertexes[1];
+    double bestCost = 0;
+
     mstOdds.resetEdges();
-    for (auto elem : mstOddsVertexes) {
-        double result = findBestPath(elem.second);
-        if (result < bestCost){
-            bestCost = result;
-            bestVertex = elem.second;
-        }
-        mstOdds.resetEdges();
-    }
 
-    finalPath = makeHamiltonian(eulerTour(bestVertex), finalCost);
+    list<Vertex *> euler = eulerTour(mstOddsVertexes[0]);
 
-    return finalPath;
+    makeHamiltonian(euler, bestCost);
+
+    return {euler, bestCost};
 
 }
 
-
-vector<Vertex*> OtherHeuristics::linKernighan(){
-
-    Graph graph = *parserData.getGraph();
-    double totalCost = 0.0;
-
-    unordered_map<int,Vertex*> tmp = graph.getVertexMap();
-
-    // Perform nearest neighbor heuristic to construct the initial tour
-    vector<Vertex*> initTour = TriangularApproximation::nearestNeighbor(tmp[0],graph.getVertexMap().size(),totalCost);
-
-    int n = initTour.size();
-    double minTotalCost = numeric_limits<double>::max();
-    vector<Vertex*> bestTour;
-
-    for (int i = 0; i < n; i++) {
-        totalCost = 0.0;
-        vector<Vertex*> tour = TriangularApproximation::nearestNeighbor(initTour[i], n, totalCost);
-
-        if (totalCost < minTotalCost) {
-            minTotalCost = totalCost;
-            bestTour = tour;
-        }
-    }
-
-    // Apply Lin-Kernighan Heuristic to improve the initial tour
-    int iterations = 1000;  // Adjust the number of iterations as needed
-
-    while (iterations > 0) {
-        int i, j;
-        bool improvement = findBestImprovement(bestTour, i, j);
-
-        if (improvement) {
-            apply2OptExchange(bestTour, i, j);
-        } else {
-            // No further improvement found, terminate the algorithm
-            break;
-        }
-
-        iterations--;
-    }
-
-    return bestTour;
-}
-
-void OtherHeuristics::apply2OptExchange(vector<Vertex*>& tour, int i, int j) {
-    while (i < j) {
-        swap(tour[i], tour[j]);
-        i++;
-        j--;
-    }
-}
-
-bool OtherHeuristics::findBestImprovement(vector<Vertex*>& tour, int& i, int& j) {
-    int n = tour.size();
-    double bestImprovement = 0.0;
-    bool foundImprovement = false;
-
-    for (int a = 0; a < n - 2; ++a) {
-        for (int b = a + 2; b < n; ++b) {
-            int c = (a + 1) % n;
-            int d = (b + 1) % n;
-
-            double gain = tour[a]->getEdgeTo(tour[c])->getWeight() + tour[b]->getEdgeTo(tour[d])->getWeight()
-                    - tour[a]->getEdgeTo(tour[b])->getWeight() - tour[c]->getEdgeTo(tour[d])->getWeight();
-
-            if (gain > bestImprovement) {
-                bestImprovement = gain;
-                i = a;
-                j = b;
-                foundImprovement = true;
-            }
-        }
-    }
-
-    return foundImprovement;
-}

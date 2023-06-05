@@ -6,7 +6,7 @@ Graph GraphBuilder::buildGraph(const set<Node>& nodes, const vector<Connection>&
     buildNodes(nodes, networkGraph);
     buildEdges(nodes, connections, networkGraph);
 
-    auto map = networkGraph.getVertexMap();
+    setUp(networkGraph);
 
     return networkGraph;
 }
@@ -41,6 +41,38 @@ void GraphBuilder::buildEdges(const set<Node>& nodes, const vector<Connection>& 
             if (!result) {
                 cout << "WARNING operation='buildGraph', msg='Edge already exists', sourceStation="
                      << to_string(sourceNode.getId()) << ", " << "destStation=" << to_string(destNode.getId()) << endl;
+            }
+        }
+    }
+}
+
+void GraphBuilder::setUp(Graph graph) {
+    auto vertexMap = graph.getVertexMap();
+    for (int i = 0; i < vertexMap.size(); i++) {
+
+        graph.dijkstra(i);
+        auto tempSet = *vertexMap[i]->getConnectedVertexes();
+        auto distancesVectorCurrent = vertexMap[i]->getDistances();
+
+        for (int j = i + 1; j < vertexMap.size(); j++) {
+
+            auto distancesVectorTemp = vertexMap[j]->getDistances();
+
+            if (tempSet.find(j) != tempSet.end()){
+                distancesVectorCurrent->push_back(vertexMap[i]->getEdgeTo(vertexMap[j])->getWeight());
+                distancesVectorTemp->push_back(vertexMap[j]->getEdgeTo(vertexMap[i])->getWeight());
+            } else {
+
+                Vertex * currentSearch = vertexMap[j];
+                double distance = 0;
+
+                while (currentSearch != vertexMap[i]) {
+                    distance += currentSearch->getDist();
+                    currentSearch = currentSearch->getPath()->getOrig();
+                }
+                distancesVectorCurrent->push_back(distance);
+                distancesVectorTemp->push_back(distance);
+
             }
         }
     }

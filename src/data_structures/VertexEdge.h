@@ -132,9 +132,17 @@ public:
 
     Edge *getEdgeToVisited(Vertex *otherVertex);
 
+    set<int>* getConnectedVertexes();
+
+    vector<double>* getDistances();
+
     friend class MutablePriorityQueue<Vertex>;
 
 protected:
+
+    set<int> connectedVertexes;
+
+    vector<double> distances;
 
     /// Identifier
     int id;
