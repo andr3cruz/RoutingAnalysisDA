@@ -450,12 +450,12 @@ function navTo(o,root,hash,relpath)
 
 function showSyncOff(n,relpath)
 {
-    n.html('<img src="'+relpath+'sync_off.png" title="'+SYNCOFFMSG+'"/>');
+    n.html('<img src='+relpath+'"sync_off.png" title="'+SYNCOFFMSG+'"/>');
 }
 
 function showSyncOn(n,relpath)
 {
-    n.html('<img src="'+relpath+'sync_on.png" title="'+SYNCONMSG+'"/>');
+    n.html('<img src='+relpath+'"sync_on.png" title="'+SYNCONMSG+'"/>');
 }
 
 function toggleSyncButton(relpath)
@@ -544,13 +544,6 @@ function initNavTree(toroot,relpath)
        $('.item').removeAttr('id');
        navTo(o,toroot,hashUrl(),relpath);
      }
-  })
-
-  $("div.toc a[href]").click(function(e) {
-    e.preventDefault();
-    var docContent = $('#doc-content');
-    var aname = $(this).attr("href");
-    gotoAnchor($(aname),aname,true);
   })
 }
 /* @license-end */

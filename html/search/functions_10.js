@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['updateflow_0',['updateFlow',['../class_graph.html#aa9fcc281269f98baeb310a027d08a49f',1,'Graph']]]
+  ['vertex_0',['Vertex',['../class_vertex.html#aacbfb12e140f5515ca304071aeb0d466',1,'Vertex']]]
 ];

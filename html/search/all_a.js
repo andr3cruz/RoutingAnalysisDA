@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['nearestneighbor_0',['nearestNeighbor',['../class_triangular_approximation.html#a5162878359c5950bdc2d2a98ec359352',1,'TriangularApproximation']]],
-  ['networkparser_1',['NetworkParser',['../class_network_parser.html',1,'']]],
-  ['networkparser_2ecpp_2',['NetworkParser.cpp',['../_network_parser_8cpp.html',1,'']]],
-  ['networkparser_2eh_3',['NetworkParser.h',['../_network_parser_8h.html',1,'']]],
-  ['node_4',['Node',['../class_node.html',1,'Node'],['../class_node.html#ad7a34779cad45d997bfd6d3d8043c75f',1,'Node::Node()'],['../class_node.html#a65dface68ece6214daaf38df995e4946',1,'Node::Node(const int &amp;id, const double &amp;longitude, const double &amp;latitude)']]],
-  ['node_5',['node',['../class_vertex.html#ae96615a3c29f5b80f8a96d677829d016',1,'Vertex']]],
-  ['node_2ecpp_6',['Node.cpp',['../_node_8cpp.html',1,'']]],
-  ['node_2eh_7',['Node.h',['../_node_8h.html',1,'']]]
+  ['operator_3c_0',['operator&lt;',['../class_vertex.html#ad4ccd48170a1530ec1db5eb306357a74',1,'Vertex::operator&lt;()'],['../class_node.html#acbf4c424e4e58ae45491583204bd80ce',1,'Node::operator&lt;()']]],
+  ['operator_3d_3d_1',['operator==',['../class_vertex.html#a80a54a84866d511b63bcc6f38899bed9',1,'Vertex']]],
+  ['orig_2',['orig',['../class_edge.html#a48f1521d20ead8492fd1d184656862f5',1,'Edge']]],
+  ['otherheuristics_3',['OtherHeuristics',['../class_other_heuristics.html',1,'']]],
+  ['otherheuristicsmenu_4',['otherHeuristicsMenu',['../class_user_interface.html#a5a38c03288e25ebf0bf4ec92184bca4c',1,'UserInterface']]]
 ];

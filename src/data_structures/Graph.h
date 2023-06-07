@@ -78,20 +78,63 @@ public:
      */
     void tspBacktrack();
 
+    /**
+     * @brief Prim's algorithm to find the Minimum Spanning Tree of a graph
+     * @details Time Complexity:  O((V + E) log V), or O(V^2 log V) if using one of our denser graphs. V is the number of Vertexes and E the number of Edges in the graph
+     * @return a graph that represents the said MST
+     */
     Graph findMST();
+
+    /**
+     * @brief Find's the Vertexes with an odd degree in an MST
+     * @details Time Complexity: O(V) being V the number of vertexes in the given MST
+     * @param mst
+     * @return an unordered map with said Vertexes. The keys are their Ids and the values the vertexes themselves
+     */
     unordered_map<int, Vertex *> findOdds(unordered_map<int, Vertex *> mst);
+
+    /**
+     * @brief Finds a minimum cost perfect matching for the odd degree Vetexes selected in "findOdds" and adds the resulting edges to the original MST
+     * @details Time Complexity: O(E log V + V^2) being V the number of Vertexes and E the number of Edges
+     * @return a graph representing the final result of modifying the MST
+     */
     Graph perfectMatching();
 
     /**
-     * Calculates the distance between two vertexes based on their GPS coordinates
+     * @brief the distance between two vertexes based on their GPS coordinates
+     * @details Time Complexity: O(1)
      * @param v1
      * @param v2
      * @return the said distance
      */
     double calculateDistance(Vertex* v1, Vertex* v2);
+
+
+    /**
+     * @brief Resets every Vertexe's visitedEdges list
+     * @details Time Complexity: O(V) being V the number of Vertexes
+     */
     void resetEdges();
+
+    /**
+     * @brief Resets every Vertexe's visited state (Sets to false)
+     * @details Time Complexity: O(V) being V the number of Vertexes
+     */
     void resetVisits();
+
+    /**
+     * @brief Dijkstra's algorithm for finding shortest paths and corresponding distances
+     * @details Time Complexity: O (V^2) being V the number of Vertexes
+     * @param origin
+     */
     void dijkstra(const int &origin);
+
+    /**
+     * @brief Analyzes an edge in single source shortest path algorithm.
+     * @details Time Complexity: O(1)
+     * @param edge
+     * @return true if the target vertex was relaxed (dist, path), false otherwise
+     */
     bool relax(Edge *edge);
 
 protected:

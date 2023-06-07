@@ -4,7 +4,7 @@ var annotated_dup =
     [ "Edge", "class_edge.html", "class_edge" ],
     [ "Graph", "class_graph.html", "class_graph" ],
     [ "GraphBuilder", "class_graph_builder.html", null ],
-    [ "MutablePriorityQueue", "class_mutable_priority_queue.html", "class_mutable_priority_queue" ],
+    [ "MutablePriorityQueue", "class_mutable_priority_queue.html", null ],
     [ "NetworkParser", "class_network_parser.html", "class_network_parser" ],
     [ "Node", "class_node.html", "class_node" ],
     [ "OtherHeuristics", "class_other_heuristics.html", null ],

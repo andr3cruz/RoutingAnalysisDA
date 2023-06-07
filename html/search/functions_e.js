@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['searchnodeid_0',['searchNodeId',['../class_parser_data.html#a9710bbda684cf7f677b398e522e83f39',1,'ParserData']]],
-  ['setdataset_1',['setDataSet',['../class_parser_data.html#a42aa58ddb9ccbf40833d6f125066e43a',1,'ParserData']]],
-  ['setdist_2',['setDist',['../class_vertex.html#a6939bef79bfe5fe5bf77d9fd1bd70085',1,'Vertex']]],
-  ['setflow_3',['setFlow',['../class_edge.html#a788cfe1f98772af4e7bbfe6310d0ccaa',1,'Edge']]],
-  ['setpath_4',['setPath',['../class_vertex.html#abe4bc30005eec65e775d0cd51f456460',1,'Vertex']]],
-  ['setreverse_5',['setReverse',['../class_edge.html#a64881280015bd83702fe3b2c6234b7e5',1,'Edge']]],
-  ['settraversed_6',['setTraversed',['../class_edge.html#a0ebb6d3eb419fc109cc1ae672170fda2',1,'Edge']]],
-  ['setvisited_7',['setVisited',['../class_vertex.html#a15eeabbbb6d517af746ae137c6d5b595',1,'Vertex']]],
-  ['setweight_8',['setWeight',['../class_edge.html#a452013a3525db6e2dbbbcb614acf728b',1,'Edge']]]
+  ['testandvisit_0',['testAndVisit',['../class_graph.html#a8878bb542af827afe6ad3ae1c5ac309f',1,'Graph']]],
+  ['toygraphsmenu_1',['toyGraphsMenu',['../class_user_interface.html#aca207dffd4f9dc9abd3386a95911473d',1,'UserInterface']]],
+  ['triangularapprox_2',['triangularApprox',['../class_triangular_approximation.html#acb64fae31d5476fcc1e0c3ec5feb8be5',1,'TriangularApproximation']]],
+  ['triangularapproximationmenu_3',['triangularApproximationMenu',['../class_user_interface.html#a993a68ab6b644eda4549b0713ee267d1',1,'UserInterface']]],
+  ['tspbacktrack_4',['tspBacktrack',['../class_graph.html#ad36dbfeacf61a513fe3857050693168f',1,'Graph']]]
 ];

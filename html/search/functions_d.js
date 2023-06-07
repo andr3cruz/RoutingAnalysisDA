@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['realworldgraphsmenu_0',['realWorldGraphsMenu',['../class_user_interface.html#adfddcd48f67f9dc05cda077bdd704350',1,'UserInterface']]],
-  ['rebuildgraph_1',['rebuildGraph',['../class_parser_data.html#aa17fc73aca6f27b2ea1753221d7e7f84',1,'ParserData::rebuildGraph()'],['../class_parser_data.html#ae5be578599433fa403a4e37b940670b3',1,'ParserData::rebuildGraph(const string &amp;nodesPath, const string &amp;edgesPath, const string &amp;dataSetName)'],['../class_parser_data.html#a62203452424c6d9d9505b42c5c2dcdab',1,'ParserData::rebuildGraph(const string &amp;edgesPath, const string &amp;dataSetName)']]],
-  ['removeedge_2',['removeEdge',['../class_vertex.html#a10c6827225205dc4ad070914ebfa26e7',1,'Vertex']]],
-  ['resetedges_3',['resetEdges',['../class_graph.html#a69a08f310b14de95133b2439e5ea4d81',1,'Graph']]],
-  ['resetvisits_4',['resetVisits',['../class_graph.html#aaa0927f481caf79cc748466bbd77d79e',1,'Graph']]]
+  ['searchnodeid_0',['searchNodeId',['../class_parser_data.html#a9710bbda684cf7f677b398e522e83f39',1,'ParserData']]],
+  ['setdataset_1',['setDataSet',['../class_parser_data.html#a42aa58ddb9ccbf40833d6f125066e43a',1,'ParserData']]],
+  ['setflow_2',['setFlow',['../class_edge.html#a788cfe1f98772af4e7bbfe6310d0ccaa',1,'Edge']]],
+  ['setpath_3',['setPath',['../class_vertex.html#abe4bc30005eec65e775d0cd51f456460',1,'Vertex']]],
+  ['setreverse_4',['setReverse',['../class_edge.html#a64881280015bd83702fe3b2c6234b7e5',1,'Edge']]],
+  ['settraversed_5',['setTraversed',['../class_edge.html#a0ebb6d3eb419fc109cc1ae672170fda2',1,'Edge']]],
+  ['setvisited_6',['setVisited',['../class_vertex.html#a15eeabbbb6d517af746ae137c6d5b595',1,'Vertex']]],
+  ['setweight_7',['setWeight',['../class_edge.html#a452013a3525db6e2dbbbcb614acf728b',1,'Edge']]]
 ];

@@ -35,6 +35,11 @@ private:
      */
     static void buildNodes(const set<Node>& nodes, Graph& graph);
 
+    /**
+     * @brief Runs dijkstra's algorithm through every vertex of the graph to store all the distances
+     * @details Time Complexity: O(V^2 + VE log V), being V the number of vertexes and E the nuber of edges
+     * @param graph
+     */
     static void setUp(Graph graph);
 
 

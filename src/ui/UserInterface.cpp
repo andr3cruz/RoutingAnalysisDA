@@ -59,8 +59,8 @@ void UserInterface::otherHeuristicsMenu() {
         cout << " -> " << vertex->getNode()->getId();
     }
 
-    cout << "\n" << "Total Cost: " << cost;
-    cout << "\n\n";
+    cout << "\n\n" << "Total Cost: " << cost;
+    cout << "\n";
     cout << "Execution time: " << duration << " ms" << std::endl;
 
 }
@@ -85,8 +85,8 @@ void UserInterface::triangularApproximationMenu(){
         cout << " -> " << vertex->getNode()->getId();
     }
 
-    cout << "\n" << "Total Cost: " << cost;
-    cout << "\n\n";
+    cout << "\n\n" << "Total Cost: " << cost;
+    cout << "\n";
     cout << "Execution time: " << duration << " ms" << "\n";
 }
 

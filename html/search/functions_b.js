@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['operator_3c_0',['operator&lt;',['../class_vertex.html#ad4ccd48170a1530ec1db5eb306357a74',1,'Vertex::operator&lt;()'],['../class_node.html#acbf4c424e4e58ae45491583204bd80ce',1,'Node::operator&lt;()']]],
-  ['operator_3d_3d_1',['operator==',['../class_vertex.html#a80a54a84866d511b63bcc6f38899bed9',1,'Vertex']]],
-  ['otherheuristicsmenu_2',['otherHeuristicsMenu',['../class_user_interface.html#a5a38c03288e25ebf0bf4ec92184bca4c',1,'UserInterface']]]
+  ['parseconnections_0',['parseConnections',['../class_network_parser.html#aa3d7641118a1679b1eaf40166df63f60',1,'NetworkParser']]],
+  ['parsedefaultnodes_1',['parseDefaultNodes',['../class_network_parser.html#a1513fe1b2afd49d0f5c01e8c14effd97',1,'NetworkParser']]],
+  ['parsenodes_2',['parseNodes',['../class_network_parser.html#a7ef9a473d2d45ca904f87d9e541101e3',1,'NetworkParser']]],
+  ['parserdata_3',['ParserData',['../class_parser_data.html#a902e4798be0037000ff762cefde2851d',1,'ParserData']]],
+  ['perfectmatching_4',['perfectMatching',['../class_graph.html#af145370bdf21c6d42798bd10a0f6ccc8',1,'Graph']]]
 ];
